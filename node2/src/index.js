@@ -3,6 +3,11 @@ const app = express();
 const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded());
+app.use((req, res, next) => {
+  console.log(`${req.method}:${req.url}`);
+  next();
+});
+
 app.listen(PORT, () => console.log(`Running express server on Port ${PORT}!`));
 
 const blogList = [
@@ -19,16 +24,17 @@ const blogList = [
     year: 2023,
   },
 ];
-app.get(
-  '/blog',
-  (req, rep, next) => {
-    console.log('Before handling the request');
-  },
-  (req, res) => {
-    res.send(blogList);
-    next();
-  }
-);
+
+app.get('/blog', (request, response) => {
+  const { title } = req.params;
+  const blogList = bloglist.find(b => b.title === title);
+  response.send(blogList);
+});
+
+app.get('/blog/:title', (req, res) => {
+  console.log(req.params.title);
+  res.sendStatus(200);
+});
 
 app.post('/blog', (req, res) => {
   console.log(req.body);
