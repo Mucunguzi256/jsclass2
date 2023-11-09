@@ -16,7 +16,7 @@ const blogSource = [
   },
 ];
 
-router.get('', (req, res) => {
+router.get('/source', (req, res) => {
   res.send(blogSource);
 });
 

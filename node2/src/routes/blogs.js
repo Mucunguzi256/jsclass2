@@ -16,14 +16,17 @@ const blogList = [
   },
 ];
 router.get('/blog', (req, res) => {
-  const { title } = req.params;
-  const blogList = bloglist.find(b => b.title === title);
-  response.send(blogList);
+    res.cookie('visited', true, {
+      maxAge: 60000,
+    });
+    res.send(blogList);
 });
 
 router.get('/blog/:title', (req, res) => {
-  console.log(req.params.title);
-  res.sendStatus(200);
+    console.log(req.cookies);
+    const { title } = req.params;
+    const blogTitle = bloglist.find(b => b.title === title);
+    response.send(blogTitle);
 });
 
 router.post('/blog', (req, res) => {
